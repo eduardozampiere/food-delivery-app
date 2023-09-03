@@ -5,8 +5,8 @@ import { View, Text } from "react-native";
 
 const app = () => {
   return (
-    <View>
-      <Text>Ola mundo</Text>
+    <View className="bg-slate-500">
+      <Text className="text-white">Ola </Text>
     </View>
   );
 };
