@@ -1,14 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
-
-// import { Container } from './styles';
-
+import Home from "./Home";
 const app = () => {
-  return (
-    <View className="bg-slate-500">
-      <Text className="text-white">Ola </Text>
-    </View>
-  );
+  return <Home />;
 };
 
 export default app;
