@@ -1,50 +1,35 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, Image, ScrollView, TouchableOpacity } from "react-native";
 import { ArrowLeft } from "react-native-feather";
 import { themeColors } from "../../theme";
 import RestaurantInfo from "../../components/RestaurantInfo";
 import Menu from "../../components/Menu";
 import CartIcon from "../../components/CartIcon";
+import { StatusBar } from "expo-status-bar";
+import { useDispatch } from "react-redux";
+import { setRestaurant } from "../../redux/slice/restaurant";
 
 const Restaurant = () => {
   const restaurant = useLocalSearchParams();
   const router = useRouter();
 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (restaurant?.id) {
+      dispatch(setRestaurant({ ...restaurant }));
+    }
+  }, []);
+
   const handleBack = () => {
     router.back();
   };
-
-  function getDishes(id) {
-    return [
-      {
-        id: 1,
-        image: "https://picsum.photos/800",
-        name: "BigTasty",
-        description: "Some description",
-        price: 29.9,
-      },
-      {
-        id: 2,
-        image: "https://picsum.photos/800",
-        name: "BigMac",
-        description: "Some description",
-        price: 29.9,
-      },
-      {
-        id: 3,
-        image: "https://picsum.photos/800",
-        name: "Cheddar",
-        description: "Some description",
-        price: 29.9,
-      },
-    ];
-  }
 
   return (
     <View>
       <ScrollView>
         <CartIcon />
+        <StatusBar style="light" />
         <View className="relative">
           <Image className="w-full h-72" source={{ uri: restaurant.image }} />
           <TouchableOpacity
@@ -71,7 +56,7 @@ const Restaurant = () => {
           </View>
         </View>
 
-        <Menu dishes={getDishes(restaurant.id)} />
+        <Menu restaurantId={restaurant?.id} />
       </ScrollView>
     </View>
   );

@@ -2,14 +2,23 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { themeColors } from "../../theme";
 import { Minus, Plus } from "react-native-feather";
-
+import { useDispatch, useSelector } from "react-redux";
+import { add, remove, getCartItemsById } from "../../redux/slice/cart";
 // import { Container } from './styles';
 
 const DishItem = ({ dish }) => {
-  const [itensAdded, setItensAdded] = useState(0);
+  const dispatch = useDispatch();
 
-  function handleAdd(value = 1) {
-    setItensAdded((prev) => prev + value);
+  const itensAdded = useSelector((state) =>
+    getCartItemsById(state, dish.id)
+  ).length;
+
+  function handleAdd(dish) {
+    dispatch(add(dish));
+  }
+
+  function handleRemove(dish) {
+    dispatch(remove(dish));
   }
 
   return (
@@ -38,7 +47,7 @@ const DishItem = ({ dish }) => {
               style={{
                 backgroundColor: themeColors.bgColor(itensAdded > 0 ? 1 : 0.3),
               }}
-              onPress={() => handleAdd(-1)}
+              onPress={() => handleRemove(dish)}
             >
               <Minus strokeWidth={2} height={20} width={20} stroke="white" />
             </TouchableOpacity>
@@ -48,7 +57,7 @@ const DishItem = ({ dish }) => {
               style={{
                 backgroundColor: themeColors.bgColor(1),
               }}
-              onPress={() => handleAdd(1)}
+              onPress={() => handleAdd(dish)}
             >
               <Plus strokeWidth={2} height={20} width={20} stroke="white" />
             </TouchableOpacity>
@@ -59,11 +68,50 @@ const DishItem = ({ dish }) => {
   );
 };
 
-const Menu = ({ dishes }) => {
+const Menu = ({ restaurantId }) => {
+  function getDishes(id) {
+    if (Number(id) === 1) {
+      return [
+        {
+          id: 1,
+          image: "https://picsum.photos/800",
+          name: "BigTasty",
+          description: "Some description",
+          price: 29.9,
+        },
+        {
+          id: 2,
+          image: "https://picsum.photos/800",
+          name: "BigMac",
+          description: "Some description",
+          price: 29.9,
+        },
+        {
+          id: 3,
+          image: "https://picsum.photos/800",
+          name: "Cheddar",
+          description: "Some description",
+          price: 29.9,
+        },
+      ];
+    } else {
+      return [
+        {
+          id: 1,
+          image: "https://picsum.photos/800",
+          name: "Fired Chicken",
+          description: "Some description",
+          price: 49.9,
+          quantity: 1,
+        },
+      ];
+    }
+  }
+
   return (
     <View className="pb-36 bg-white">
       <Text className="px-4 pt-4 text-2xl font-bold">Menu</Text>
-      {dishes.map((dish) => (
+      {getDishes(restaurantId)?.map((dish) => (
         <DishItem key={dish.id} dish={dish} />
       ))}
     </View>
