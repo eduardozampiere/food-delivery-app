@@ -3,11 +3,15 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { themeColors } from "../../theme";
 import { Phone, User, X } from "react-native-feather";
 import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
+import { empty } from "../../redux/slice/cart";
 
 const DeliveryRiderInfo = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   function goToHome() {
+    dispatch(empty());
     router.push({
       params: "Home",
     });

@@ -24,8 +24,6 @@ export const CartSlice = createSlice({
 export const { add, remove, empty } = CartSlice.actions;
 
 export const getCart = (state) => state.cart.value;
-export const getCartItemsById = (state, id) =>
-  state.cart.value.filter((item) => item.id === id);
 
 export const getCartTotal = (state) =>
   state.cart.value.reduce((accum, item) => (accum += item.price), 0);

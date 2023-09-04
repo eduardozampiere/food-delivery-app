@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { memo } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { themeColors } from "../../theme";
 import { Minus, Plus } from "react-native-feather";
 import { useDispatch, useSelector } from "react-redux";
-import { add, remove, getCartItemsById } from "../../redux/slice/cart";
+import { add, remove } from "../../redux/slice/cart";
 // import { Container } from './styles';
 
-const DishItem = ({ dish }) => {
+const DishItem = memo(({ dish }) => {
   const dispatch = useDispatch();
-
-  const itensAdded = useSelector((state) =>
-    getCartItemsById(state, dish.id)
-  ).length;
+  const cart = useSelector((state) => state.cart.value);
+  const itensAdded = cart?.filter((item) => item.id === dish.id).length;
 
   function handleAdd(dish) {
     dispatch(add(dish));
@@ -38,7 +36,7 @@ const DishItem = ({ dish }) => {
         </View>
         <View className="flex-row justify-between pl-3 items-center">
           <Text className="text-gray-700 text-lg font-bold">
-            R$ {dish.price}
+            R$ {dish.price.toFixed(2)}
           </Text>
           <View className="flex-row items-center">
             <TouchableOpacity
@@ -66,7 +64,7 @@ const DishItem = ({ dish }) => {
       </View>
     </View>
   );
-};
+});
 
 const Menu = ({ restaurantId }) => {
   function getDishes(id) {
@@ -97,7 +95,39 @@ const Menu = ({ restaurantId }) => {
     } else {
       return [
         {
-          id: 1,
+          id: 4,
+          image: "https://picsum.photos/800",
+          name: "Fired Chicken",
+          description: "Some description",
+          price: 49.9,
+          quantity: 1,
+        },
+        {
+          id: 5,
+          image: "https://picsum.photos/800",
+          name: "Fired Chicken",
+          description: "Some description",
+          price: 49.9,
+          quantity: 1,
+        },
+        {
+          id: 6,
+          image: "https://picsum.photos/800",
+          name: "Fired Chicken",
+          description: "Some description",
+          price: 49.9,
+          quantity: 1,
+        },
+        {
+          id: 7,
+          image: "https://picsum.photos/800",
+          name: "Fired Chicken",
+          description: "Some description",
+          price: 49.9,
+          quantity: 1,
+        },
+        {
+          id: 8,
           image: "https://picsum.photos/800",
           name: "Fired Chicken",
           description: "Some description",

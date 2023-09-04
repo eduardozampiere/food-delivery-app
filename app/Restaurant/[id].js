@@ -7,12 +7,14 @@ import RestaurantInfo from "../../components/RestaurantInfo";
 import Menu from "../../components/Menu";
 import CartIcon from "../../components/CartIcon";
 import { StatusBar } from "expo-status-bar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setRestaurant } from "../../redux/slice/restaurant";
+import { getCart } from "../../redux/slice/cart";
 
 const Restaurant = () => {
   const restaurant = useLocalSearchParams();
   const router = useRouter();
+  const totalItems = useSelector(getCart).length;
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -27,8 +29,12 @@ const Restaurant = () => {
 
   return (
     <View>
-      <ScrollView>
-        <CartIcon />
+      <ScrollView
+        style={{
+          flexGrow: 1,
+        }}
+      >
+        {totalItems ? <CartIcon /> : null}
         <StatusBar style="light" />
         <View className="relative">
           <Image className="w-full h-72" source={{ uri: restaurant.image }} />
